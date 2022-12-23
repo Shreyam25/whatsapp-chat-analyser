@@ -80,7 +80,7 @@ if uploaded_file is not None:
             st.markdown('<h1 class="header">Emoji</h1>', unsafe_allow_html=True)
 
             st.subheader(emojis)
-           
+
 
 
         with col2:
@@ -247,16 +247,19 @@ if uploaded_file is not None:
         emoji_df = helper.emoji_helper(selected_user, df)
         st.markdown('<h1 class="title">Analysis based on emojis</h1>', unsafe_allow_html=True)
         col1, col2 = st.columns(2)
+        if emoji_df.shape[0]!=0:
+            with col1:
+                st.header("Most used emojis with count")
 
-        with col1:
-            st.header("Most used emojis with count")
+                st.dataframe(emoji_df,width=400,height=300)
+            with col2:
+                df.index=df.index+1
+                st.header("Top 5 emojis")
+                plt.figure(figsize=(5, 5))
+                fig, ax = plt.subplots()
+                ax.pie(emoji_df["Count"].head(), labels=emoji_df["Emojis"].head(), autopct="%0.3f")
+                st.pyplot(fig)
 
-            st.dataframe(emoji_df,width=400,height=300)
-        with col2:
-            df.index=df.index+1
-            st.header("Top 5 emojis")
-            plt.figure(figsize=(5, 5))
-            fig, ax = plt.subplots()
-            ax.pie(emoji_df["Count"].head(), labels=emoji_df["Emojis"].head(), autopct="%0.3f")
-            st.pyplot(fig)
+        else:
+            st.subheader("Not any emojis has been sent yet")
 
