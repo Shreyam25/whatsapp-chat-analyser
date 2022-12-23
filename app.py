@@ -17,7 +17,9 @@ if uploaded_file is not None:
     df = preprocessor.preprocess(data)
 
     user_list = df['user'].unique().tolist()
-    user_list.remove('group_notification')
+    for i  in user_list:
+        if i == 'group_notification':
+            user_list.remove('group_notification')
     user_list.sort()
     user_list.insert(0, "Group Analysis")
     selected_user = st.sidebar.selectbox("Show analysis by", user_list)
