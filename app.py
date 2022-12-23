@@ -64,6 +64,7 @@ if uploaded_file is not None:
         col1, col2, col3= st.columns(3)
 
         with col1:
+
             st.markdown('<h1 class="header">Messages</h1>', unsafe_allow_html=True)
             st.subheader(messages)
         with col2:
@@ -76,9 +77,12 @@ if uploaded_file is not None:
         col1, col2, col3 = st.columns(3)
 
         with col1:
-
             st.markdown('<h1 class="header">Emoji</h1>', unsafe_allow_html=True)
+
             st.subheader(emojis)
+           
+
+
         with col2:
             st.markdown('<h1 class="header">Media</h1>', unsafe_allow_html=True)
             st.subheader(media)
@@ -94,30 +98,62 @@ if uploaded_file is not None:
         media_admirer=helper.top5_media(selected_user,df)
 
         st.markdown('<h1 class="title">Awards </h1>', unsafe_allow_html=True)
+        if selected_user == 'Group Analysis':
+            col1, col2, col3 = st.columns(3)
 
-        col1, col2, col3 = st.columns(3)
+            with col1:
+                st.markdown('<h1 class="header">Active day</h1>', unsafe_allow_html=True)
+                if active_days.shape[0]!= 0:
+                    st.subheader(active_days.index[0])
+                else:
+                    st.subheader("Not any")
+            with col2:
+                st.markdown('<h1 class="header">Talkative </h1>', unsafe_allow_html=True)
+                if talkative.shape[0] != 0:
+                    st.subheader(talkative.index[0])
+                else:
+                    st.subheader("No one yet")
 
-        with col1:
-            st.markdown('<h1 class="header">Active day</h1>', unsafe_allow_html=True)
-            st.subheader(active_days.index[0])
-        with col2:
-            st.markdown('<h1 class="header">Talkative </h1>', unsafe_allow_html=True)
-            st.subheader(talkative.index[0])
-        with col3:
-            st.markdown('<h1 class="header">Silent reader</h1>', unsafe_allow_html=True)
-            st.subheader(talkative.index[n])
+            with col3:
+                st.markdown('<h1 class="header">Silent reader</h1>', unsafe_allow_html=True)
+                if talkative.index[n] != 0:
+                    st.subheader(talkative.index[n])
+                else:
+                    st.subheader("No one yet")
 
-        col1, col2,col3= st.columns(3)
+            col1, col2,col3= st.columns(3)
 
-        with col1:
-            st.markdown('<h1 class="header">Emoji Fan</h1>', unsafe_allow_html=True)
-            st.subheader(emoji_fan[0])
-        with col2:
-            st.markdown('<h1 class="header">Media admirer</h1>', unsafe_allow_html=True)
-            st.subheader(media_admirer.index[0])
-        with col3:
-            st.markdown('<h1 class="header">Lazy day</h1>', unsafe_allow_html=True)
-            st.subheader(active_days.index[m])
+            with col1:
+                st.markdown('<h1 class="header">Emoji Fan</h1>', unsafe_allow_html=True)
+                if len(emoji_fan) ==0:
+                    st.subheader("No one")
+
+                else:
+                    st.subheader(emoji_fan[0])
+
+            with col2:
+                st.markdown('<h1 class="header">Media admirer</h1>', unsafe_allow_html=True)
+                if media_admirer.shape[0]==0:
+                    st.subheader("No one")
+
+                else:
+                    st.subheader(media_admirer.index[0])
+
+            with col3:
+                st.markdown('<h1 class="header">Lazy day</h1>', unsafe_allow_html=True)
+                st.subheader(active_days.index[m])
+        else:
+            col1, col2 = st.columns(2)
+            df = df[df['user'] != "group_notification"]
+            df = df[df['user'] == selected_user]
+            x = df['only_date'].value_counts()
+
+            with col1:
+                st.markdown('<h1 class="header">Active day</h1>', unsafe_allow_html=True)
+                st.subheader(x.index[0])
+            with col2:
+                st.markdown('<h1 class="header">Lazy day</h1>', unsafe_allow_html=True)
+                st.subheader(x.index[len(x)-1])
 
 
 
