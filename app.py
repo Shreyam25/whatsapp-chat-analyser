@@ -21,7 +21,8 @@ if uploaded_file is not None:
         if i == 'group_notification':
             user_list.remove('group_notification')
     user_list.sort()
-    user_list.insert(0, "Group Analysis")
+    if  len( user_list) > 2:
+        user_list.insert(0, "Group Analysis")
     selected_user = st.sidebar.selectbox("Show analysis by", user_list)
 
     if st.sidebar.button("Show Analysis"):
